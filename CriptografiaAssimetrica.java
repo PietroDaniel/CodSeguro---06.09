@@ -3,10 +3,15 @@ import javax.crypto.Cipher;
 import java.util.Base64;
 
 public class CriptografiaAssimetrica {
+
     private KeyPairGenerator keyGen;
     private KeyPair keyPair;
 
     public CriptografiaAssimetrica() throws NoSuchAlgorithmException {
+        configurarChave();
+    }
+
+    private void configurarChave() throws NoSuchAlgorithmException {
         this.keyGen = KeyPairGenerator.getInstance("RSA");
         this.keyGen.initialize(2048);
         this.keyPair = this.keyGen.generateKeyPair();
@@ -38,18 +43,18 @@ public class CriptografiaAssimetrica {
         CriptografiaAssimetrica usuarioWallace = new CriptografiaAssimetrica();
         CriptografiaAssimetrica usuarioArthur = new CriptografiaAssimetrica();
 
-        String mensagemWallaceParaArthur = "Olá Arthur!";
-        String mensagemCriptografada = usuarioWallace.criptografar(mensagemWallaceParaArthur, usuarioArthur.getChavePublica());
-        System.out.println("Mensagem criptografada por Wallace: " + mensagemCriptografada);
+        String mensagemWallace = "Olá Arthur!";
+        String criptografadoWallace = usuarioWallace.criptografar(mensagemWallace, usuarioArthur.getChavePublica());
+        System.out.println("Criptografado por Wallace: " + criptografadoWallace);
 
-        String mensagemDescriptografada = usuarioArthur.descriptografar(mensagemCriptografada, usuarioArthur.getChavePrivada());
-        System.out.println("Mensagem descriptografada por Arthur: " + mensagemDescriptografada);
+        String descriptografadoArthur = usuarioArthur.descriptografar(criptografadoWallace, usuarioArthur.getChavePrivada());
+        System.out.println("Descriptografado por Arthur: " + descriptografadoArthur);
 
-        String mensagemArthurParaWallace = "Olá Wallace!";
-        mensagemCriptografada = usuarioArthur.criptografar(mensagemArthurParaWallace, usuarioWallace.getChavePublica());
-        System.out.println("Mensagem criptografada por Arthur: " + mensagemCriptografada);
+        String mensagemArthur = "Olá Wallace!";
+        String criptografadoArthur = usuarioArthur.criptografar(mensagemArthur, usuarioWallace.getChavePublica());
+        System.out.println("Criptografado por Arthur: " + criptografadoArthur);
 
-        mensagemDescriptografada = usuarioWallace.descriptografar(mensagemCriptografada, usuarioWallace.getChavePrivada());
-        System.out.println("Mensagem descriptografada por Wallace: " + mensagemDescriptografada);
+        String descriptografadoWallace = usuarioWallace.descriptografar(criptografadoArthur, usuarioWallace.getChavePrivada());
+        System.out.println("Descriptografado por Wallace: " + descriptografadoWallace);
     }
 }

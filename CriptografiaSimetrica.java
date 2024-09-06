@@ -4,11 +4,16 @@ import javax.crypto.SecretKey;
 import java.util.Base64;
 
 public class CriptografiaSimetrica {
+
     private SecretKey chaveSecreta;
 
     public CriptografiaSimetrica() throws Exception {
+        configurarChave();
+    }
+
+    private void configurarChave() throws Exception {
         KeyGenerator keyGen = KeyGenerator.getInstance("AES");
-        keyGen.init(128);  // Pode ajustar o tamanho da chave, como 128, 192, ou 256 bits
+        keyGen.init(128);
         this.chaveSecreta = keyGen.generateKey();
     }
 
@@ -30,10 +35,10 @@ public class CriptografiaSimetrica {
         CriptografiaSimetrica criptografiaAES = new CriptografiaSimetrica();
 
         String mensagem = "Esta é uma mensagem secreta!";
-        String mensagemCriptografada = criptografiaAES.criptografar(mensagem);
-        System.out.println("Mensagem criptografada: " + mensagemCriptografada);
+        String criptografado = criptografiaAES.criptografar(mensagem);
+        System.out.println("Mensagem criptografada: " + criptografado);
 
-        String mensagemDescriptografada = criptografiaAES.descriptografar(mensagemCriptografada);
-        System.out.println("Mensagem descriptografada: " + mensagemDescriptografada);
+        String descriptografado = criptografiaAES.descriptografar(criptografado);
+        System.out.println("Mensagem descriptografada: " + descriptografado);
     }
 }
